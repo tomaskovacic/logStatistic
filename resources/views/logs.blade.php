@@ -13,37 +13,33 @@
     <div style="text-align:center">
     <h1 class="display-4">Log Statistics</h1>
     </div> <br>
-    <div>
-        <table class="table table-striped">
-            <thead>
+    <div style="margin-left: 30px;">
+    <h5> Number of errors: {{$array_of_results[0]}}</h5>
+    <h5> Number of debugs: {{$array_of_results[1]}}</h5>
+    <h5> Number of info: {{$array_of_results[2]}}</h5> <br>
+    </div>
+    <div class="table-responsive" >
+        <table class="table table-striped" style="table-layout:fixed; width: 100%;">
+            <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col" style="text-align:center; word-wrap: break-word;">Errors</th>
                 </tr>
             </thead>
             <tbody>
+                @php 
+                unset($array_of_results[0]);
+                unset($array_of_results[1]);
+                unset($array_of_results[2]);
+                @endphp
+                @foreach($array_of_results as $item)
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <td style="word-wrap: break-word;">{{$item}}</td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
+                <br><br>
+
 
 </body>

@@ -11,7 +11,7 @@ class UploadController extends Controller
 {
 
     // 
-    function index(Request $req): array
+    function index(Request $req)
     {
         try {
             $path = $req->file('file')->store('logs');
@@ -52,7 +52,7 @@ class UploadController extends Controller
                 $array_of_results[$counter2] = $item;
                 $counter2++;
             }
-            return $array_of_results;
+            return view('logs',['array_of_results'=>$array_of_results]);
         } catch (FileNotFoundException $e) {
             return "File not found";
         }
