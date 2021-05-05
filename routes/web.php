@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 Route::view('upload','upload');
 Route::post('upload',[UploadController::class, 'index']);
+Route::view('logs','logs');
