@@ -13,6 +13,17 @@ class UploadController extends Controller
     // 
     function index(Request $req)
     {
+        function get_line($file): \Generator
+        {
+            $lineCounter = 0;
+            while (!feof($file)) {
+                $array[$lineCounter] = fgets($file);
+                yield $array[$lineCounter];
+                $lineCounter++;
+            }
+
+        }
+
         try {
             $path = $req->file('file')->store('logs');
             $path = trim($path, "logs/");
@@ -20,7 +31,6 @@ class UploadController extends Controller
             $endPath .= $path;
             $file = fopen(storage_path($endPath), "r");
             $array = [];
-            $arrayWithoutDuplicates = [];
             $arrayOfResults = [];
             $lineCounter = 0;
             $infoCounter = 0;
@@ -28,25 +38,27 @@ class UploadController extends Controller
             $errorCounter = 0;
             while (!feof($file)) {
                 $array[$lineCounter] = fgets($file);
-                if (str_contains($array[$lineCounter], "local.INFO")) {
+
+            $generator = get_line($file);
+            foreach ($generator as $line) {
+                if (str_contains($line, "local.INFO")) {
                     $infoCounter++;
                 }
-                if (str_contains($array[$lineCounter], "local.DEBUG")) {
+                if (str_contains($line, "local.DEBUG")) {
                     $debugCounter++;
                 }
-                if (str_contains($array[$lineCounter], "local.ERROR")) {
+                if (str_contains($line, "local.ERROR")) {
                     $errorCounter++;
                 }
+                $array[$lineCounter] = $line;
                 $lineCounter++;
             }
             $arrayOfResults[0] = $infoCounter;
             $arrayOfResults[1] = $debugCounter;
             $arrayOfResults[2] = $errorCounter;
 
-            
+
             $arrayWithoutDuplicates = array_unique($array, SORT_STRING );
-            //dd(count($arrayWithoutDuplicates)); 
-            //dd(count($array)); 
             $counter2=3;
             foreach($arrayWithoutDuplicates as $item) {
                 $arrayOfResults[$counter2] = $item;
