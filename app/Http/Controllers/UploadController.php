@@ -36,8 +36,6 @@ class UploadController extends Controller
             $infoCounter = 0;
             $debugCounter = 0;
             $errorCounter = 0;
-            while (!feof($file)) {
-                $array[$lineCounter] = fgets($file);
 
             $generator = get_line($file);
             foreach ($generator as $line) {
