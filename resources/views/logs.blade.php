@@ -21,9 +21,9 @@
     <h1 class="display-4">Log Statistics</h1>
     </div> <br>
     <div style="margin-left: 30px;">
-    <h5> Number of errors: {{$array_of_results[0]}}</h5>
-    <h5> Number of debugs: {{$array_of_results[1]}}</h5>
-    <h5> Number of info: {{$array_of_results[2]}}</h5> <br>
+    <h5> Number of errors: {{$arrayOfResults[0]}}</h5>
+    <h5> Number of debugs: {{$arrayOfResults[1]}}</h5>
+    <h5> Number of info: {{$arrayOfResults[2]}}</h5> <br>
     </div>
     <div class="table-responsive" >
         <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
@@ -34,11 +34,11 @@
             </thead>
             <tbody>
                 @php 
-                unset($array_of_results[0]);
-                unset($array_of_results[1]);
-                unset($array_of_results[2]);
+                unset($arrayOfResults[0]);
+                unset($arrayOfResults[1]);
+                unset($arrayOfResults[2]);
                 @endphp
-                @foreach($array_of_results as $item)
+                @foreach($arrayOfResults as $item)
                 <tr>
                     <td style="word-wrap: break-word;">{{$item}}</td>
                 </tr>

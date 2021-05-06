@@ -16,43 +16,43 @@ class UploadController extends Controller
         try {
             $path = $req->file('file')->store('logs');
             $path = trim($path, "logs/");
-            $end_path = "app\\logs\\";
-            $end_path .= $path;
-            $file = fopen(storage_path($end_path), "r");
+            $endPath = "app\\logs\\";
+            $endPath .= $path;
+            $file = fopen(storage_path($endPath), "r");
             $array = [];
-            $array_without_duplicates = [];
-            $array_of_results = [];
-            $line_counter = 0;
-            $info_counter = 0;
-            $debug_counter = 0;
-            $error_counter = 0;
+            $arrayWithoutDuplicates = [];
+            $arrayOfResults = [];
+            $lineCounter = 0;
+            $infoCounter = 0;
+            $debugCounter = 0;
+            $errorCounter = 0;
             while (!feof($file)) {
-                $array[$line_counter] = fgets($file);
-                if (str_contains($array[$line_counter], "local.INFO")) {
-                    $info_counter++;
+                $array[$lineCounter] = fgets($file);
+                if (str_contains($array[$lineCounter], "local.INFO")) {
+                    $infoCounter++;
                 }
-                if (str_contains($array[$line_counter], "local.DEBUG")) {
-                    $debug_counter++;
+                if (str_contains($array[$lineCounter], "local.DEBUG")) {
+                    $debugCounter++;
                 }
-                if (str_contains($array[$line_counter], "local.ERROR")) {
-                    $error_counter++;
+                if (str_contains($array[$lineCounter], "local.ERROR")) {
+                    $errorCounter++;
                 }
-                $line_counter++;
+                $lineCounter++;
             }
-            $array_of_results[0] = $info_counter;
-            $array_of_results[1] = $debug_counter;
-            $array_of_results[2] = $error_counter;
+            $arrayOfResults[0] = $infoCounter;
+            $arrayOfResults[1] = $debugCounter;
+            $arrayOfResults[2] = $errorCounter;
 
             
-            $array_without_duplicates = array_unique($array, SORT_STRING );
-            //dd(count($array_without_duplicates)); 
+            $arrayWithoutDuplicates = array_unique($array, SORT_STRING );
+            //dd(count($arrayWithoutDuplicates)); 
             //dd(count($array)); 
             $counter2=3;
-            foreach($array_without_duplicates as $item) {
-                $array_of_results[$counter2] = $item;
+            foreach($arrayWithoutDuplicates as $item) {
+                $arrayOfResults[$counter2] = $item;
                 $counter2++;
             }
-            return view('logs',['array_of_results'=>$array_of_results]);
+            return view('logs',['arrayOfResults'=>$arrayOfResults]);
         } catch (FileNotFoundException $e) {
             return "File not found";
         }
