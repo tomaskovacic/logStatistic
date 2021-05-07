@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -16,10 +17,36 @@
     </script>
     <script>
         $(document).ready(function() {
+            $('td').click(function() {
+                var $cell = $(this),
+                    columnIndex = $cell.index(),
+                    rowIndex = $cell.parent().index();
+                //alert(rowIndex);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/upload",
+                    data: rowIndex,
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(data, textStatus, errorThrown) {
+                        console.log(data);
+
+                    },
+                });
+            });
+
             $('#table').DataTable({
                 "ordering": false
             });
             $('.dataTables_length').addClass('bs-select');
+
+
         });
 
     </script>
@@ -57,10 +84,10 @@
         </table>
     </div>
     <br><br><br>
-    <div style="text-align:center">
+    <div>
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">First Tab</a>
+                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Errors</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Second Tab</a>
@@ -75,17 +102,16 @@
                     <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col" style="word-wrap: break-word;">Date</th>
-                                <th scope="col" style="word-wrap: break-word;">Error name</th>
-                                <th scope="col" style="word-wrap: break-word;">Error description</th>
+                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="word-wrap: break-word;">Test</td>
-                                <td style="word-wrap: break-word;">Test</td>
-                                <td style="word-wrap: break-word;">Test</td>
-
+                                <td style="word-wrap: break-word;">test1</td>
+                                @php
+                                    $phpVariable = '<script>document.write(rowIndex);</script>';
+                                    echo $phpVariable;
+                                @endphp
                             </tr>
                         </tbody>
                     </table>
@@ -96,17 +122,12 @@
                     <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col" style="word-wrap: break-word;">Date</th>
-                                <th scope="col" style="word-wrap: break-word;">Error name</th>
-                                <th scope="col" style="word-wrap: break-word;">Error description</th>
+                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td style="word-wrap: break-word;">Test2</td>
-                                <td style="word-wrap: break-word;">Test2</td>
-                                <td style="word-wrap: break-word;">Test2</td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -117,17 +138,12 @@
                     <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col" style="word-wrap: break-word;">Date</th>
-                                <th scope="col" style="word-wrap: break-word;">Error name</th>
-                                <th scope="col" style="word-wrap: break-word;">Error description</th>
+                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td style="word-wrap: break-word;">Test3</td>
-                                <td style="word-wrap: break-word;">Test3</td>
-                                <td style="word-wrap: break-word;">Test3</td>
-
                             </tr>
                         </tbody>
                     </table>

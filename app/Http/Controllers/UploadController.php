@@ -79,6 +79,24 @@ class UploadController extends Controller
                 }
             }
 
+            //Getting Stacktrace for specific id
+            $rowId = 3;
+            $tempIndex = -1;
+            $stacktrace = [];
+            $counterTrace = 0;
+            foreach ($array as $key => $line) {
+                if (str_contains($line, "local.ERROR") or str_contains($line, "local.DEBUG") or str_contains($line, "local.INFO")) {
+                    if ($line == $arrayWithoutDuplicates[$rowId]) {
+                        $tempIndex = $key;
+                        $stacktrace[$counterTrace] =  $array[$tempIndex];
+                        $key++;
+                        while (!str_contains($line, "local.ERROR") or !str_contains($line, "local.DEBUG") or !str_contains($line, "local.INFO")) {
+                            $stacktrace[$counterTrace] = $array[$tempIndex];
+                        }
+                    }
+                }
+            }
+
             $arrayOfResults[0] = $infoCounter;
             $arrayOfResults[1] = $debugCounter;
             $arrayOfResults[2] = $errorCounter;
@@ -90,9 +108,16 @@ class UploadController extends Controller
                 $arrayOfResults[$counter2] = $item;
                 $counter2++;
             }*/
+
             return view('logs', ['arrayFinal' => $arrayFinal], ['arrayOfResults' => $arrayOfResults]);
         } catch (FileNotFoundException $e) {
             return "File not found";
         }
     }
+
+    /*public function getId($id)
+{
+    $id = get('id');
+    dd($id);
+}*/
 }
