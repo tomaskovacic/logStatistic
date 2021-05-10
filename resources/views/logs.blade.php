@@ -117,15 +117,6 @@
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Errors</a>
-<<<<<<< HEAD
-=======
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Second Tab</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Third Tab</a>
->>>>>>> 6425474f3aaf7b4d93ff0ff3479309330403e6f3
             </li>
         </ul>
         <div class="tab-content">
@@ -140,46 +131,7 @@
                         <tbody>
                             <tr>
                                 <td style="word-wrap: break-word;">test1</td>
-<<<<<<< HEAD
 
-=======
-                                @php
-                                    $phpVariable = '<script>document.write(rowIndex);</script>';
-                                    echo $phpVariable;
-                                @endphp
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                <div class="table-responsive">
-                    <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="word-wrap: break-word;">Test2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                <div class="table-responsive">
-                    <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="word-wrap: break-word;">Test3</td>
->>>>>>> 6425474f3aaf7b4d93ff0ff3479309330403e6f3
                             </tr>
                         </tbody>
                     </table>

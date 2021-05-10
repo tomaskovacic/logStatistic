@@ -235,7 +235,6 @@ class UploadController extends Controller
                 $arrayOfResults[$counter2] = $item;
                 $counter2++;
             }*/
-<<<<<<< HEAD
     //json_encode($arrayFinal);*/
     /*return view('logs', ['arrayFinal' => $arrayFinal], ['arrayOfResults' => $arrayOfResults]);
 
@@ -243,14 +242,6 @@ class UploadController extends Controller
             return "File not found";
         }
     }*/
-=======
-
-            return view('logs', ['arrayFinal' => $arrayFinal], ['arrayOfResults' => $arrayOfResults]);
-        } catch (FileNotFoundException $e) {
-            return "File not found";
-        }
-    }
->>>>>>> 6425474f3aaf7b4d93ff0ff3479309330403e6f3
 
     /*public function getId($id)
 {
