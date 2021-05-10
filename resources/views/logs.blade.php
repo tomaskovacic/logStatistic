@@ -14,7 +14,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
-    
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+
     </script>
     <script>
         $(document).ready(function() {
@@ -36,8 +40,9 @@
 
                 var table = $('#table').DataTable({
                     destroy: true,
-                        paging: true,
-
+                    paging: true,
+                    select: 'single',
+                    "order": [],
                     "processing": true,
                     "serverSide": false,
                     "ajax": 'api/getData/' + value,
@@ -56,6 +61,14 @@
 
                 });
                 $('.dataTables_length').addClass('bs-select');
+
+
+
+                $('#table tbody').on('click', 'tr', function() {
+                    alert('Row index: ' + table.row(this).index());
+                });
+
+
                 /*var info = table.page.info();
                 console.log(info);
                 console.log('Currently showing page ' + (info.page) + ' of ' + info
@@ -138,9 +151,5 @@
                 </div>
             </div>
         </div>
-
-
-
-
         <br><br><br>
 </body>
