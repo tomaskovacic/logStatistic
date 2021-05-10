@@ -23,12 +23,11 @@ class UploadController extends Controller
 
     public function getFilenames()
     {
-        $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix()."logs";
+        $storagePath  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . "logs";
         $tempFiles = File::allFiles($storagePath);
         $files = [];
         $i = 0;
-        foreach ($tempFiles as $file)
-        {
+        foreach ($tempFiles as $file) {
             $path = explode('\\logs\\', $file);
             $files[$i] = $path[1];
             $i++;
@@ -38,7 +37,7 @@ class UploadController extends Controller
 
     public function getData(string $value)
     {
-        function get_line($file):Generator
+        function get_line($file): Generator
         {
             $lineCounter = 0;
             while (!feof($file)) {
@@ -115,16 +114,30 @@ class UploadController extends Controller
                 $counter2++;
             }*/
             //json_encode($arrayFinal);
-            return $arrayFinal;
+            
+            //"recordsTotal": 57,
+            //"recordsFiltered": 57,
 
+            for ( $i = 0; $i < count($arrayFinal[0]); $i++) {
+                $final[] = array('date' => $arrayFinal[0][$i], 'errorName' => $arrayFinal[1][$i], 'errorDesc' =>$arrayFinal[2][$i]);
+            }
+            $newArray = array(
+                'draw'=> 10,
+                'recordsTotal'=> 5000,
+                'recordsFiltered'=> 5000,
+                'data' =>$final
+            );
+
+
+
+            return json_encode($newArray);
         } catch (FileNotFoundException $e) {
             return "File not found";
         }
-
     }
 
     // 
-    public function index(Request $req)
+    /* public function index(Request $req)
     {
         function get_line($file):Generator
         {
@@ -193,6 +206,24 @@ class UploadController extends Controller
                 }
             }
 
+            //Getting Stacktrace for specific id
+            $rowId = 3;
+            $tempIndex = -1;
+            $stacktrace = [];
+            $counterTrace = 0;
+            foreach ($array as $key => $line) {
+                if (str_contains($line, "local.ERROR") or str_contains($line, "local.DEBUG") or str_contains($line, "local.INFO")) {
+                    if ($line == $arrayWithoutDuplicates[$rowId]) {
+                        $tempIndex = $key;
+                        $stacktrace[$counterTrace] =  $array[$tempIndex];
+                        $key++;
+                        while (!str_contains($line, "local.ERROR") or !str_contains($line, "local.DEBUG") or !str_contains($line, "local.INFO")) {
+                            $stacktrace[$counterTrace] = $array[$tempIndex];
+                        }
+                    }
+                }
+            }
+
             $arrayOfResults[0] = $infoCounter;
             $arrayOfResults[1] = $debugCounter;
             $arrayOfResults[2] = $errorCounter;
@@ -204,11 +235,17 @@ class UploadController extends Controller
                 $arrayOfResults[$counter2] = $item;
                 $counter2++;
             }*/
-            //json_encode($arrayFinal);
-            return view('logs', ['arrayFinal' => $arrayFinal], ['arrayOfResults' => $arrayOfResults]);
+    //json_encode($arrayFinal);*/
+    /*return view('logs', ['arrayFinal' => $arrayFinal], ['arrayOfResults' => $arrayOfResults]);
 
         } catch (FileNotFoundException $e) {
             return "File not found";
         }
-    }
+    }*/
+
+    /*public function getId($id)
+{
+    $id = get('id');
+    dd($id);
+}*/
 }
