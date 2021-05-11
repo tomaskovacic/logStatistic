@@ -52,10 +52,10 @@ class UploadController extends Controller
             $endPath .= $value;
             $file = fopen(storage_path($endPath), "r");
             $array = [];
-            $arrayOfResults = [];
             $date = [];
             $errorName = [];
             $errorDesc = [];
+            $arrayOfResults = [];
 
             $lineCounter = 0;
             $infoCounter = 0;
@@ -108,24 +108,14 @@ class UploadController extends Controller
 
             $arrayFinal = array($date, $errorName, $errorDesc);
 
-            /*$counter2 = 3;
-            foreach ($arrayWithoutDuplicates as $item) {
-                $arrayOfResults[$counter2] = $item;
-                $counter2++;
-            }*/
-            //json_encode($arrayFinal);
-            
-            //"recordsTotal": 57,
-            //"recordsFiltered": 57,
-
-            for ( $i = 0; $i < count($arrayFinal[0]); $i++) {
-                $final[] = array('date' => $arrayFinal[0][$i], 'errorName' => $arrayFinal[1][$i], 'errorDesc' =>$arrayFinal[2][$i]);
+            for ($i = 0; $i < count($arrayFinal[0]); $i++) {
+                $final[] = array('date' => $arrayFinal[0][$i], 'errorName' => $arrayFinal[1][$i], 'errorDesc' => $arrayFinal[2][$i]);
             }
             $newArray = array(
-                'draw'=> 10,
-                'recordsTotal'=> 5000,
-                'recordsFiltered'=> 5000,
-                'data' =>$final
+                'draw' => 10,
+                'recordsTotal' => 5000,
+                'recordsFiltered' => 5000,
+                'data' => $final
             );
 
 
@@ -135,6 +125,25 @@ class UploadController extends Controller
             return "File not found";
         }
     }
+
+    public function getErrors(string $value)
+    {
+        $arr = array(
+            array('error' => 'bar'),
+            array('error' => 'baz')
+        );
+
+        $newArray = array(
+            //'draw' => 10,
+            //'recordsTotal' => 5000,
+            //'recordsFiltered' => 5000,
+            'data' => $arr
+        );
+
+
+        return json_encode($newArray);
+    }
+
 
     // 
     /* public function index(Request $req)

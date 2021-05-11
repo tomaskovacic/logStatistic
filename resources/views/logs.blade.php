@@ -56,37 +56,60 @@
                             "data": "errorDesc"
                         },
                     ],
-
-                    //retrieve: true,
-
                 });
                 $('.dataTables_length').addClass('bs-select');
 
 
 
                 $('#table tbody').on('click', 'tr', function() {
-                    alert('Row index: ' + table.row(this).index());
+                    var index = table.row(this).index();
+                    //alert(value);
+                    //alert(index);
+
+                    var table2 = $('#table2').DataTable({
+                        destroy: true,
+                        "ordering": false,
+                        //"serverSide": true,
+                        "info": false,
+                        "searching": false,
+                        "lengthChange": false,
+                        "ajax": 'api/getErrors/' + value,
+                        "columns": [{
+                            "data": "error"
+                        }, ],
+
+
+                    });
+
+                    /*$.ajax({
+                        url: 'api/getErrors/' + value,
+                        type: 'get',
+                        success: function(response) {
+                           alert(response)
+                        }
+                    });*/
+
                 });
 
-
-                /*var info = table.page.info();
-                console.log(info);
-                console.log('Currently showing page ' + (info.page) + ' of ' + info
-                    .pages + ' pages.');*/
-
-                //alert(response[2]);
-                /*for (let i = 0; i < response[0].length; i++) {
-                    $('#tableBody').append("<tr>");
-                    for (let j = 0; j < response.length; j++) {
-                        $('#tableBody').append("<td>" + response[j][i] +
-                            "</td>")
-                    }
-                    $('#tableBody').append("</tr>");
-
-                    //</tr>
-                }*/
-
             });
+            /*var info = table.page.info();
+            console.log(info);
+            console.log('Currently showing page ' + (info.page) + ' of ' + info
+                .pages + ' pages.');*/
+
+            //alert(response[2]);
+            /*for (let i = 0; i < response[0].length; i++) {
+                $('#tableBody').append("<tr>");
+                for (let j = 0; j < response.length; j++) {
+                    $('#tableBody').append("<td>" + response[j][i] +
+                        "</td>")
+                }
+                $('#tableBody').append("</tr>");
+
+                //</tr>
+            }*/
+
+
         });
 
     </script>
@@ -141,11 +164,7 @@
                                 <th scope="col" style="word-wrap: break-word;">Full error description</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td style="word-wrap: break-word;">test1</td>
 
-                            </tr>
                         </tbody>
                     </table>
                 </div>
