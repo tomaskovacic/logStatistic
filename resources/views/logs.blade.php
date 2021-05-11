@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
@@ -17,7 +16,6 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-
 
     </script>
     <script>
@@ -36,8 +34,6 @@
 
             $('.form-select').change(function() {
                 const value = $(this).val();
-                //alert(value);
-
                 var table = $('#table').DataTable({
                     destroy: true,
                     paging: true,
@@ -59,17 +55,11 @@
                 });
                 $('.dataTables_length').addClass('bs-select');
 
-
-
                 $('#table tbody').on('click', 'tr', function() {
                     var index = table.row(this).index();
-                    //alert(value);
-                    //alert(index);
-
                     var table2 = $('#table2').DataTable({
                         destroy: true,
                         "ordering": false,
-                        //"serverSide": true,
                         "info": false,
                         "searching": false,
                         "lengthChange": false,
@@ -77,39 +67,9 @@
                         "columns": [{
                             "data": "error"
                         }, ],
-
-
                     });
-
-                    /*$.ajax({
-                        url: 'api/getErrors/' + value,
-                        type: 'get',
-                        success: function(response) {
-                           alert(response)
-                        }
-                    });*/
-
                 });
-
             });
-            /*var info = table.page.info();
-            console.log(info);
-            console.log('Currently showing page ' + (info.page) + ' of ' + info
-                .pages + ' pages.');*/
-
-            //alert(response[2]);
-            /*for (let i = 0; i < response[0].length; i++) {
-                $('#tableBody').append("<tr>");
-                for (let j = 0; j < response.length; j++) {
-                    $('#tableBody').append("<td>" + response[j][i] +
-                        "</td>")
-                }
-                $('#tableBody').append("</tr>");
-
-                //</tr>
-            }*/
-
-
         });
 
     </script>
@@ -117,13 +77,10 @@
         td {
             word-wrap: break-word;
         }
-
     </style>
 </head>
 
-
 <body>
-
     <select class="form-select" aria-label="Default select example">
         <option selected disabled>Choose file</option>
     </select>
@@ -145,7 +102,6 @@
                     <th scope="col" style="word-wrap: break-word;">Error description</th>
                 </tr>
             </thead>
-
         </table>
     </div>
     <br><br><br>
@@ -156,7 +112,7 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel" style="table-layout:fixed; width: 100%;>
                 <div class="table-responsive">
                     <table id="table2" class="table table-striped" style="table-layout:fixed; width: 100%;">
                         <thead class="thead-dark">
@@ -164,8 +120,6 @@
                                 <th scope="col" style="word-wrap: break-word;">Full error description</th>
                             </tr>
                         </thead>
-
-                        </tbody>
                     </table>
                 </div>
             </div>
