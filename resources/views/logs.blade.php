@@ -73,7 +73,7 @@
                         "info": false,
                         "searching": false,
                         "lengthChange": false,
-                        "ajax": 'api/getErrors/' + value,
+                        "ajax": 'api/getErrors/' + value +"@"+index,
                         "columns": [{
                             "data": "error"
                         }, ],

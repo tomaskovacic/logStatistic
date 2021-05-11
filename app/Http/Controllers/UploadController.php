@@ -87,8 +87,9 @@ class UploadController extends Controller
                             $text = trim($line, substr($line, 0, 32));
                             $errorDesc[$counter1] = substr($text, 0, strpos($text, '{"'));
                         } else {
-                            $text = trim($line, substr($line, 0, 32));
-                            $errorDesc[$counter1] = substr($text, 0, strpos($text, '{"'));
+                            [$firstString, $secondString] = explode('{', $line, 2);
+                            [$string1, $string2, $string3, $string4] = explode(':', $firstString, 4);
+                            $errorDesc[$counter1] = $string4;
                         }
                     } else {
                         $errorDesc[$counter1] = substr($line, 34);
@@ -118,8 +119,6 @@ class UploadController extends Controller
                 'data' => $final
             );
 
-
-
             return json_encode($newArray);
         } catch (FileNotFoundException $e) {
             return "File not found";
@@ -128,18 +127,15 @@ class UploadController extends Controller
 
     public function getErrors(string $value)
     {
+        [$path, $index] = explode('@', $value);
         $arr = array(
-            array('error' => 'bar'),
-            array('error' => 'baz')
-        );
+            array('error' => $path),
+            array('error' => $index)
 
+        );
         $newArray = array(
-            //'draw' => 10,
-            //'recordsTotal' => 5000,
-            //'recordsFiltered' => 5000,
             'data' => $arr
         );
-
 
         return json_encode($newArray);
     }
