@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
@@ -59,11 +60,13 @@
                     var index = table.row(this).index();
                     var table2 = $('#table2').DataTable({
                         destroy: true,
+                        "order": [],
+                        "aaSorting": [],
                         "ordering": false,
                         "info": false,
                         "searching": false,
                         "lengthChange": false,
-                        "ajax": 'api/getErrors/' + value +"@"+index,
+                        "ajax": 'api/getErrors/' + value + "@" + index,
                         "columns": [{
                             "data": "error"
                         }, ],
@@ -77,6 +80,7 @@
         td {
             word-wrap: break-word;
         }
+
     </style>
 </head>
 
@@ -113,16 +117,16 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tabs-1" role="tabpanel" style="table-layout:fixed; width: 100%;>
-                <div class="table-responsive">
-                    <table id="table2" class="table table-striped" style="table-layout:fixed; width: 100%;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col" style="word-wrap: break-word;">Full error description</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                <div class=" table-responsive">
+                <table id="table2" class="table table-striped" style="table-layout:fixed; width: 100%;">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" style="word-wrap: break-word;">Full error description</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
-        <br><br><br>
+    </div>
+    <br><br><br>
 </body>

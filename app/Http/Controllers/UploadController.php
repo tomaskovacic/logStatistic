@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
-
     public function uploadFile(Request $req)
     {
         $req->file('file')->store('logs');
@@ -124,6 +123,9 @@ class UploadController extends Controller
 
     public function getErrors(string $value)
     {
+        [$path, $int] = explode('@', $value);
+        $index = (int)$int;
+
         function get_line2($file): Generator
         {
             $lineCounter = 0;
@@ -133,7 +135,6 @@ class UploadController extends Controller
                 $lineCounter++;
             }
         }
-        [$path, $index] = explode('@', $value);
 
         try {
             $endPath = "app\\logs\\";
@@ -148,25 +149,39 @@ class UploadController extends Controller
             }
             $arrayWithoutDuplicates = array_unique($array, SORT_STRING);
 
-            $tempIndex = -1;
+            $array2 = [];
             $stacktrace = [];
-            $counterTrace = 0;
-            foreach ($array as $key => $line) {
+            $counterTrace = 1;
+            $tempCounter = 0;
+            foreach ($arrayWithoutDuplicates as $line) {
                 if (str_contains($line, "local.ERROR") or str_contains($line, "local.DEBUG") or str_contains($line, "local.INFO")) {
-                    if ($line == $arrayWithoutDuplicates[$index]) {
-                        $tempIndex = $key;
-                        $stacktrace[$counterTrace] =  $array[$tempIndex];
+                    $array2[$tempCounter] = $line;
+                    $tempCounter++;
+                }
+            }
+            $indexOFNext = 0;
+            foreach ($array as $key => $line) {
+                if ($line == $array2[$index]) {
+                    $stacktrace[0] = $line;
+                    $indexOFNext = $key + 1;
+                }
+                if ($key == $indexOFNext) {
+                    if (!str_contains($line, "local.ERROR") and !str_contains($line, "local.DEBUG") and !str_contains($line, "local.INFO")) {
+                        $stacktrace[$counterTrace] = $line;
                         $counterTrace++;
-                        /*$key++;
-                        while (!str_contains($line, "local.ERROR") or !str_contains($line, "local.DEBUG") or !str_contains($line, "local.INFO")) {
-                            $stacktrace[$counterTrace] = $array[$tempIndex];
-                        }*/
+                        $indexOFNext++;
                     }
                 }
             }
-            foreach($stacktrace as $value) {
-                $errors[] = array('error' => $value);
+
+            foreach ($stacktrace as $stack) {
+                $errors[] = array('error' => $stack);
             }
+
+            /*$errors = array(
+                array('error' => $stacktrace[$index]),
+                array('error' => $index),
+            );*/
 
             $arrayOfErrors = array(
                 'data' => $errors
