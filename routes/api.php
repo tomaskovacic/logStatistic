@@ -22,4 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('getFilenames', [UploadController::class, 'getFilenames']);
 Route::get('getData/{value}', [UploadController::class, 'getData']);
+Route::get('getNumber/{value}', [UploadController::class, 'getNumber']);
 Route::get('getErrors/{value}', [UploadController::class, 'getErrors']);

@@ -35,13 +35,25 @@
 
             $('.form-select').change(function() {
                 const value = $(this).val();
+                $('#number').empty();
+                $.ajax({
+                    url: '/api/getNumber/' + value,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#number').append("<h5 id='numberErrors'> Number of info: " + response[0] + "</h5>");
+                        $('#number').append("<h5 id='numberDebugs'> Number of debugs: " + response[1] + "</h5>");
+                        $('#number').append("<h5 id='numberErrors'> Number of errors: " + response[2] + "</h5>");
+                    }
+                });
+
                 var table = $('#table').DataTable({
                     destroy: true,
                     paging: true,
                     select: 'single',
                     "order": [],
                     "processing": true,
-                    "serverSide": false,
+                    "serverSide": true,
                     "ajax": 'api/getData/' + value,
                     "columns": [{
                             "data": "date"
@@ -85,18 +97,20 @@
 </head>
 
 <body>
-    <select class="form-select" aria-label="Default select example">
-        <option selected disabled>Choose file</option>
-    </select>
 
     <div style="text-align:center">
         <h1 class="display-4">Log Statistics</h1>
     </div> <br>
-    <div style="margin-left: 30px;">
-        <h5> Number of errors: </h5>
-        <h5> Number of debugs: </h5>
-        <h5> Number of info: </h5> <br>
+
+    <select class="form-select" style="margin-left: 30px;" aria-label="Default select example">
+        <option selected disabled>Choose file</option>
+    </select>
+    <br><br>
+    <div id="number" style="margin-left: 30px;">
+
     </div>
+    <br>
+
     <div class="table-responsive">
         <table id="table" class="table table-striped" style="table-layout:fixed; width: 100%;">
             <thead class="thead-dark">
