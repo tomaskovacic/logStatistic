@@ -224,4 +224,77 @@ class UploadController extends Controller
             return "File not found";
         }
     }
+
+    public function sort(Request $req, string $value)
+    {
+        $file = explode('&',$value)[0];
+        $from = explode('&',$value)[1];
+        $to = explode('&',$value)[2];
+
+        $array = [];
+        $from = str_replace("T", " ", $from);
+        $to = str_replace("T", " ", $to);
+
+        $start = intval($req->get('start'));
+        $date = [];
+        $errorName = [];
+        $errorDesc = [];
+        $limit = $start + 9;
+        $temp = [];
+        $final = [];
+
+        $counter1 = 0;
+        $arrayWithoutDuplicates = self::read($file);
+        foreach ($arrayWithoutDuplicates as $line) {
+            if (str_contains($line, "local.ERROR") or str_contains($line, "local.DEBUG") or str_contains($line, "local.INFO")) {
+                $date[$counter1] = substr($line, 1, 19);
+                if (str_contains($line, '{"')) {
+                    if (str_contains($line, "local.INFO")) {
+                        $text = trim($line, substr($line, 0, 32));
+                        $errorDesc[$counter1] = substr($text, 0, strpos($text, '{"'));
+                    } else {
+                        [$firstString, $secondString] = explode('{', $line, 2);
+                        [$string1, $string2, $string3, $string4] = explode(':', $firstString, 4);
+                        $errorDesc[$counter1] = $string4;
+                    }
+                } else {
+                    $errorDesc[$counter1] = substr($line, 34);
+                }
+                if (str_contains($line, "local.INFO")) {
+                    $errorName[$counter1] = substr($line, 28, 4);
+                } else {
+                    $errorName[$counter1] = substr($line, 28, 5);
+                }
+                $counter1++;
+            }
+        }
+
+        $arrayFinal = array($date, $errorName, $errorDesc);
+
+        for ( $i = 0; $i < count($arrayFinal[0]); $i++) {
+            $temp['data'][] = array('date' => $arrayFinal[0][$i], 'errorName' => $arrayFinal[1][$i], 'errorDesc' =>$arrayFinal[2][$i]);
+        }
+
+        $c = 0;
+        foreach($temp['data'] as $object)
+        {
+            if($object['date'] >= $from and $object['date'] <= $to) {
+                $array['data'][$c] = $object;
+                $c++;
+            }
+        }
+
+        foreach ($array['data'] as $k => $line) {
+            if ($k < $start)
+                continue;
+
+            if ($k > $limit)
+                break;
+
+            $final['data'][] = $line;
+        }
+
+        return json_encode($final);
+    }
+
 }

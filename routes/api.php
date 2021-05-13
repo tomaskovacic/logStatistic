@@ -24,3 +24,4 @@ Route::get('getFilenames', [UploadController::class, 'getFilenames']);
 Route::get('getData/{value}', [UploadController::class, 'getData']);
 Route::get('getNumber/{value}', [UploadController::class, 'getNumber']);
 Route::get('getErrors/{value}', [UploadController::class, 'getErrors']);
+Route::get('sort/{value}', [UploadController::class, 'sort']);
